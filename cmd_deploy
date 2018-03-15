@@ -1,0 +1,5 @@
+
+#检查远程主机时间和时区
+ansible all -m shell -a timedatectl
+#开始安装
+ansible-playbook -i hosts deploy_pike.yml

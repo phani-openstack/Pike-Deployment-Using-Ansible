@@ -1,0 +1,22 @@
+---
+
+- name: Install python-pip packages
+  apt: 
+    name: python-pip
+    state: present
+  tags:
+     - shade
+ 
+- name: Upgrade python-pip Packages
+  pip: 
+    name: pip
+    state: latest
+  tags:
+     - shade
+
+- name: Install python-shade Package
+  pip:
+    name: shade
+    version: 1.8.0
+  tags:
+     - shade

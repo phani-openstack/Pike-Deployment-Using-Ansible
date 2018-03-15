@@ -1,0 +1,75 @@
+---
+
+
+- name: Configuring source.list
+  template: src=sources.list dest=/etc/apt/sources.list
+  environment: "{{ python3_env }}"
+  tags:
+     - common
+
+- name: Update apt cache
+  apt: update_cache=yes
+  environment: "{{ python3_env }}"
+  tags:
+     - common
+
+- name: Update all packages to the latest version
+  apt: upgrade=dist
+  environment: "{{ python3_env }}"
+  tags:
+     - common
+
+- name: Install depend on the package
+  apt: name={{ item }} state=latest force=yes
+  with_items:
+    - python2.7
+    - python-simplejson
+    - python-apt
+    - python3-apt
+    - python-apt-common
+    - software-properties-common
+  environment: "{{ python3_env }}"
+  tags:
+     - common
+
+- name: Add apt repo cloud-archive pike
+  command: add-apt-repository cloud-archive:pike
+  environment: "{{ python3_env }}"
+  tags:
+    - common
+
+- name: Update apt cache
+  apt: update_cache=yes
+  environment: "{{ python3_env }}"
+  tags:
+     - common
+
+- name: Update all packages to the latest version
+  apt: upgrade=dist
+  environment: "{{ python3_env }}"
+  tags:
+     - common
+
+- name: Create the hosts file for all machines
+  template: src=hosts.j2 dest=/etc/hosts
+  environment: "{{ python3_env }}"
+  tags:
+     - common
+
+- name: Install python-openstackclient
+  apt: name=python-openstackclient state=latest force=yes
+  environment: "{{ python3_env }}"
+  tags:
+     - common
+
+- name: Install devops software
+  apt: name={{ item }} state=latest force=yes
+  with_items:
+    - iftop
+    - htop
+    - lrzsz
+    - landscape-common
+    - update-notifier-common
+  environment: "{{ python3_env }}"
+  tags:
+     - common
